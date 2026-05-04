@@ -11,12 +11,22 @@ pip install pandas geopy
 
 ### Raw Data Placement
 
-Place all raw tournament event JSON files into the source directory. The script is configured to iterate through every .json file found in this path:
+Place all raw tournament event JSON files into the source directory. 
 
-- **Path:**
+- **Run This:**
     - Get_Owen.ipynb
 - **Files Altered:** 
     - Data/raw/events/
+- **To Know:** 
+    - Will download and store JSON files that will be stored in this directory.
+    - Naming convention is {event_id}.json
+    
+### Raw Data Processing - Events
+
+The script is configured to iterate through every .json file found in this path:
+- **Path:**
+    - Data/raw/events/
+- **Files Altered:** 
 - **To Know:** 
     - Will download and store JSON files that will be stored in this directory.
     - Naming convention is {event_id}.json
