@@ -1,6 +1,10 @@
+import sys
 import requests
 import csv
 import os
+
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 def find_teams(data, unique_teams_dict):
     """Recursively extracts Team IDs and Names from JSON objects."""
@@ -113,15 +117,15 @@ def retrieve_event_data(encoded_id):
         # 3. Save Output
         if all_matches:
             # Added a safety check to ensure the "Data" folder exists
-            os.makedirs("Data", exist_ok=True)
+            os.makedirs("Data/raw/event_results", exist_ok=True)
             
-            filename = f"Data/{encoded_id}.csv"
+            filename = f"Data/raw/event_results/{encoded_id}.csv"
             with open(filename, 'w', newline='', encoding='utf-8') as f:
                 writer = csv.DictWriter(f, fieldnames=all_matches[0].keys())
                 writer.writeheader()
                 writer.writerows(all_matches)
                 
-            print(f"\n🎉 SUCCESS! Saved {len(all_matches)} unique competitive matches to '{filename}'.")
+            print(f"\nSUCCESS! Saved {len(all_matches)} unique competitive matches to '{filename}'.")
             return filename
         else:
             print("\nNo match records found.")
