@@ -1,0 +1,39 @@
+import sys
+import os
+from pathlib import Path
+
+def setup_project_environment(markers={'Data', 'src', '.git'}):
+    """
+    Locates the project root by searching upwards for specific markers,
+    then configures the system path and working directory.
+    """
+    current_dir = Path.cwd().resolve()
+    found_root = None
+
+    # Search upwards to the filesystem root
+    for candidate in [current_dir] + list(current_dir.parents):
+        if any((candidate / m).exists() for m in markers):
+            found_root = candidate
+            break
+
+    # Fallback to environment variable if not found
+    if not found_root:
+        env_fallback = os.getenv("PROJECT_ROOT_FALLBACK")
+        if env_fallback and Path(env_fallback).exists():
+            found_root = Path(env_fallback)
+
+    if found_root:
+        root_str = str(found_root)
+        os.chdir(root_str)
+        
+        if root_str not in sys.path:
+            sys.path.insert(0, root_str)
+            
+        return found_root
+    else:
+        raise RuntimeError(
+            f"Could not find project root. Searched from: {current_dir}"
+        )
+
+# Execute the setup automatically when this config is imported
+PROJECT_ROOT = setup_project_environment()
