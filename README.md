@@ -6,6 +6,16 @@ Ensure that you have Python 3.x installed along with the necessary data manipula
 
 ```bash```
 pip install pandas geopy
+pip install thefuzz
+
+
+## Links
+- https://www.advancedeventsystems.com/events
+    - Find events through GUI
+- https://www.advancedeventsystems.com/events/44496
+    - Shows information about individual events (here EventID = 44496
+- https://results.advancedeventsystems.com/event/PTAwMDAwNDEzNzk90/home
+    - Results for a particular event
 
 ## Steps
 
@@ -13,13 +23,10 @@ pip install pandas geopy
 
 Place all raw tournament event JSON files into the source directory. 
 
-- **Run This:**
-    - Get_Owen.ipynb
-- **Files Altered:** 
-    - Data/raw/events/
-- **To Know:** 
-    - Will download and store JSON files that will be stored in this directory.
-    - Naming convention is {event_id}.json
+- Get_Owen.ipynb
+- Data/raw/events/
+- Will download and store JSON files that will be stored in this directory.
+- Naming convention is {event_id}.json
     
 ### Raw Data Processing - Events
 
