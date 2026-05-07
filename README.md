@@ -43,8 +43,8 @@ The project relies on a strict directory structure to separate raw data from ana
 volleyball_st_james/
 ├── Data/
 │   ├── raw/
-│   │   ├── events/           # Offline JSON files from tournament software
-│   │   ├── event_results/    # Offline CSV match results
+│   │   ├── events/           # Offline JSON files of tournaments
+│   │   ├── event_results/    # Offline JSON files of match results 
 │   │   └── aes_api/          # Raw JSON payloads downloaded directly from AES
 │   ├── processed/            
 │   │   ├── events/           # Consolidated offline data
