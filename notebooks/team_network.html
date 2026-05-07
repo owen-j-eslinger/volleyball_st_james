@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "black"}, "id": 143614, "label": "OVC 16 Neptune", "shape": "dot", "size": 15, "title": "OVC 16 Neptune"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 152348, "label": "RCVA 16 National Blue", "shape": "dot", "size": 15, "title": "RCVA 16 National Blue"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 126952, "label": "RCVA 15 National", "shape": "dot", "size": 15, "title": "RCVA 15 National"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 169797, "label": "SERV 16 Beast", "shape": "dot", "size": 15, "title": "SERV 16 Beast"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 167350, "label": "Coastal 16 Scott", "shape": "dot", "size": 15, "title": "Coastal 16 Scott"}, {"color": "#ff4d4d", "font": {"color": "black"}, "id": 185651, "label": "The St. James Boys 16W", "shape": "dot", "size": 25, "title": "The St. James Boys 16W"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 4200, "label": "RVC 16 Boys Travel", "shape": "dot", "size": 15, "title": "RVC 16 Boys Travel"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 197104, "label": "OVC 15 Neptune", "shape": "dot", "size": 15, "title": "OVC 15 Neptune"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 143398, "label": "LKN 16s Boys", "shape": "dot", "size": 15, "title": "LKN 16s Boys"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 201522, "label": "Va Wave 16 Jaws", "shape": "dot", "size": 15, "title": "Va Wave 16 Jaws"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 167351, "label": "Coastal 15 Tony", "shape": "dot", "size": 15, "title": "Coastal 15 Tony"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 217016, "label": "Apex 15 Select Boys", "shape": "dot", "size": 15, "title": "Apex 15 Select Boys"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 156338, "label": "OVC 16 Tsunami", "shape": "dot", "size": 15, "title": "OVC 16 Tsunami"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 130100, "label": "Triangle Boys 16 Blue", "shape": "dot", "size": 15, "title": "Triangle Boys 16 Blue"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 167454, "label": "GSJ 16B Coast", "shape": "dot", "size": 15, "title": "GSJ 16B Coast"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 146417, "label": "Battle 16 Black", "shape": "dot", "size": 15, "title": "Battle 16 Black"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 221124, "label": "Battle 16 Red", "shape": "dot", "size": 15, "title": "Battle 16 Red"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 198383, "label": "Synergy Boys 16 Atlas", "shape": "dot", "size": 15, "title": "Synergy Boys 16 Atlas"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 169088, "label": "Velocity 16 National", "shape": "dot", "size": 15, "title": "Velocity 16 National"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 110098, "label": "NYC impact 16s Travel", "shape": "dot", "size": 15, "title": "NYC impact 16s Travel"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 143340, "label": "SVC Boys 16-1", "shape": "dot", "size": 15, "title": "SVC Boys 16-1"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 180480, "label": "Cap City 16 Blue", "shape": "dot", "size": 15, "title": "Cap City 16 Blue"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 25740, "label": "Yorktowne 16 Red", "shape": "dot", "size": 15, "title": "Yorktowne 16 Red"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 127747, "label": "MVP 16 Black", "shape": "dot", "size": 15, "title": "MVP 16 Black"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": 31276, "label": "ACAD Boys 16 Red", "shape": "dot", "size": 15, "title": "ACAD Boys 16 Red"}]);
+                  edges = new vis.DataSet([{"from": 143614, "title": "Played 5 times", "to": 152348, "value": 5, "width": 1}, {"from": 143614, "title": "Played 3 times", "to": 126952, "value": 3, "width": 1}, {"from": 143614, "title": "Played 2 times", "to": 169797, "value": 2, "width": 1}, {"from": 143614, "title": "Played 2 times", "to": 167350, "value": 2, "width": 1}, {"from": 143614, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 143614, "title": "Played 1 times", "to": 4200, "value": 1, "width": 1}, {"from": 143614, "title": "Played 1 times", "to": 197104, "value": 1, "width": 1}, {"from": 143614, "title": "Played 1 times", "to": 143398, "value": 1, "width": 1}, {"from": 143614, "title": "Played 1 times", "to": 201522, "value": 1, "width": 1}, {"from": 143614, "title": "Played 1 times", "to": 167351, "value": 1, "width": 1}, {"from": 152348, "title": "Played 2 times", "to": 143398, "value": 2, "width": 1}, {"from": 152348, "title": "Played 1 times", "to": 126952, "value": 1, "width": 1}, {"from": 152348, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 152348, "title": "Played 1 times", "to": 201522, "value": 1, "width": 1}, {"from": 152348, "title": "Played 1 times", "to": 167350, "value": 1, "width": 1}, {"from": 152348, "title": "Played 1 times", "to": 217016, "value": 1, "width": 1}, {"from": 152348, "title": "Played 1 times", "to": 156338, "value": 1, "width": 1}, {"from": 152348, "title": "Played 1 times", "to": 130100, "value": 1, "width": 1}, {"from": 152348, "title": "Played 1 times", "to": 167454, "value": 1, "width": 1}, {"from": 156338, "title": "Played 4 times", "to": 169797, "value": 4, "width": 1}, {"from": 156338, "title": "Played 2 times", "to": 130100, "value": 2, "width": 1}, {"from": 156338, "title": "Played 1 times", "to": 217016, "value": 1, "width": 1}, {"from": 156338, "title": "Played 1 times", "to": 146417, "value": 1, "width": 1}, {"from": 156338, "title": "Played 1 times", "to": 197104, "value": 1, "width": 1}, {"from": 156338, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 169797, "title": "Played 3 times", "to": 130100, "value": 3, "width": 1}, {"from": 169797, "title": "Played 2 times", "to": 201522, "value": 2, "width": 1}, {"from": 169797, "title": "Played 2 times", "to": 197104, "value": 2, "width": 1}, {"from": 169797, "title": "Played 1 times", "to": 167351, "value": 1, "width": 1}, {"from": 169797, "title": "Played 1 times", "to": 146417, "value": 1, "width": 1}, {"from": 169797, "title": "Played 1 times", "to": 167454, "value": 1, "width": 1}, {"from": 169797, "title": "Played 1 times", "to": 126952, "value": 1, "width": 1}, {"from": 169797, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 4200, "title": "Played 3 times", "to": 126952, "value": 3, "width": 1}, {"from": 4200, "title": "Played 3 times", "to": 167350, "value": 3, "width": 1}, {"from": 4200, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 4200, "title": "Played 1 times", "to": 201522, "value": 1, "width": 1}, {"from": 4200, "title": "Played 1 times", "to": 130100, "value": 1, "width": 1}, {"from": 126952, "title": "Played 3 times", "to": 217016, "value": 3, "width": 1}, {"from": 126952, "title": "Played 2 times", "to": 167350, "value": 2, "width": 1}, {"from": 126952, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 126952, "title": "Played 1 times", "to": 130100, "value": 1, "width": 1}, {"from": 126952, "title": "Played 1 times", "to": 197104, "value": 1, "width": 1}, {"from": 130100, "title": "Played 2 times", "to": 143398, "value": 2, "width": 1}, {"from": 130100, "title": "Played 2 times", "to": 221124, "value": 2, "width": 1}, {"from": 130100, "title": "Played 1 times", "to": 167351, "value": 1, "width": 1}, {"from": 130100, "title": "Played 1 times", "to": 146417, "value": 1, "width": 1}, {"from": 130100, "title": "Played 1 times", "to": 167454, "value": 1, "width": 1}, {"from": 130100, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 130100, "title": "Played 1 times", "to": 217016, "value": 1, "width": 1}, {"from": 130100, "title": "Played 1 times", "to": 197104, "value": 1, "width": 1}, {"from": 167350, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 167350, "title": "Played 1 times", "to": 198383, "value": 1, "width": 1}, {"from": 217016, "title": "Played 1 times", "to": 201522, "value": 1, "width": 1}, {"from": 217016, "title": "Played 1 times", "to": 221124, "value": 1, "width": 1}, {"from": 217016, "title": "Played 1 times", "to": 167351, "value": 1, "width": 1}, {"from": 217016, "title": "Played 1 times", "to": 197104, "value": 1, "width": 1}, {"from": 217016, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 143398, "title": "Played 2 times", "to": 167454, "value": 2, "width": 1}, {"from": 143398, "title": "Played 1 times", "to": 201522, "value": 1, "width": 1}, {"from": 143398, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 167454, "title": "Played 1 times", "to": 146417, "value": 1, "width": 1}, {"from": 167454, "title": "Played 1 times", "to": 185651, "value": 1, "width": 1}, {"from": 167454, "title": "Played 1 times", "to": 167351, "value": 1, "width": 1}, {"from": 185651, "title": "Played 2 times", "to": 221124, "value": 2, "width": 1}, {"from": 185651, "title": "Played 2 times", "to": 169088, "value": 2, "width": 1}, {"from": 185651, "title": "Played 2 times", "to": 197104, "value": 2, "width": 1}, {"from": 185651, "title": "Played 2 times", "to": 110098, "value": 2, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 146417, "value": 1, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 143340, "value": 1, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 180480, "value": 1, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 25740, "value": 1, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 198383, "value": 1, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 127747, "value": 1, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 31276, "value": 1, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 201522, "value": 1, "width": 1}, {"from": 185651, "title": "Played 1 times", "to": 167351, "value": 1, "width": 1}, {"from": 221124, "title": "Played 2 times", "to": 146417, "value": 2, "width": 1}, {"from": 221124, "title": "Played 1 times", "to": 110098, "value": 1, "width": 1}, {"from": 221124, "title": "Played 1 times", "to": 180480, "value": 1, "width": 1}, {"from": 221124, "title": "Played 1 times", "to": 197104, "value": 1, "width": 1}, {"from": 221124, "title": "Played 1 times", "to": 201522, "value": 1, "width": 1}, {"from": 221124, "title": "Played 1 times", "to": 167351, "value": 1, "width": 1}, {"from": 201522, "title": "Played 2 times", "to": 167351, "value": 2, "width": 1}, {"from": 201522, "title": "Played 1 times", "to": 146417, "value": 1, "width": 1}, {"from": 169088, "title": "Played 1 times", "to": 31276, "value": 1, "width": 1}, {"from": 169088, "title": "Played 1 times", "to": 127747, "value": 1, "width": 1}, {"from": 197104, "title": "Played 2 times", "to": 167351, "value": 2, "width": 1}, {"from": 146417, "title": "Played 1 times", "to": 143340, "value": 1, "width": 1}, {"from": 110098, "title": "Played 1 times", "to": 180480, "value": 1, "width": 1}, {"from": 31276, "title": "Played 1 times", "to": 127747, "value": 1, "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": -0.1,
+            "damping": 0.09,
+            "nodeDistance": 150,
+            "springConstant": 0.05,
+            "springLength": 100
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
