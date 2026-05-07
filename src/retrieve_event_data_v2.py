@@ -88,7 +88,7 @@ def extract_raw_event_data(encoded_id, output_dir="Data/raw/event_results"):
                             item['_Injected_Division'] = div_name 
                             unique_raw_matches[match_id] = item
                             
-                time.sleep(0.05) 
+                time.sleep(random.uniform(1.2, 2.5)) 
                 
         if unique_raw_matches:
             os.makedirs(output_dir, exist_ok=True)

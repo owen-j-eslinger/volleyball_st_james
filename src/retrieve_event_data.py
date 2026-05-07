@@ -148,7 +148,7 @@ def retrieve_event_data(encoded_id):
                             'Set2_TeamA': scores['S2A'], 'Set2_TeamB': scores['S2B'], 'Set2_Deciding': scores['S2D'],
                             'Set3_TeamA': scores['S3A'], 'Set3_TeamB': scores['S3B'], 'Set3_Deciding': scores['S3D']
                         })
-                time.sleep(0.05) 
+                time.sleep(random.uniform(1.2, 2.5)) 
 
         if all_matches:
             os.makedirs("Data/raw/event_results", exist_ok=True)

@@ -64,4 +64,4 @@ class AESClient:
                 e_id = tourney.get('eventId')
                 if e_id:
                     self.get_match_results(team_id, e_id)
-                    time.sleep(0.5)
+                    time.sleep(random.uniform(1.5, 3.0))
