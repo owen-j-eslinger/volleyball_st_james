@@ -36,6 +36,32 @@ class AESTransformer:
         df.to_csv(out_path, index=False)
         return out_path
 
+    def transform_finishes(self, team_id):
+        filepath = self.raw_dir / f"team_{team_id}/finishes.json"
+        data = self._load_json(filepath)
+        if not data: return None
+
+        df = pd.json_normalize(data)
+        if df.empty: return None
+
+        df = df.rename(columns={
+            'event.name': 'Tournament', 'event.startDate': 'Date',
+            'eventDivision': 'Division', 'finishRank': 'Rank',
+            'divisionSize': 'Field_Size'
+        })
+
+        if 'Date' in df.columns: df['Date'] = pd.to_datetime(df['Date']).dt.strftime('%Y-%m-%d')
+        if 'Rank' in df.columns and 'Field_Size' in df.columns:
+            df['Placement'] = df['Rank'].astype(str) + " of " + df['Field_Size'].astype(str)
+            df['Top_Percent'] = (df['Rank'] / df['Field_Size'] * 100).round(1)
+
+        cols = [c for c in ['Date', 'Tournament', 'Division', 'Rank', 'Field_Size', 'Placement', 'Top_Percent'] if c in df.columns]
+        df = df[cols].sort_values(by='Date', ascending=False)
+        
+        out_path = self.processed_dir / f"team_{team_id}_finishes.csv"
+        df.to_csv(out_path, index=False)
+        return out_path
+
     def transform_matches(self, team_id):
         team_folder = self.raw_dir / f"team_{team_id}"
         match_files = list(team_folder.glob("matches_event_*.json"))
@@ -77,4 +103,5 @@ class AESTransformer:
 
     def process_all(self, team_id):
         self.transform_roster(team_id)
+        self.transform_finishes(team_id) # Added this back!
         self.transform_matches(team_id)
